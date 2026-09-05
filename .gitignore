@@ -1,0 +1,10 @@
+node_modules/
+dist/
+sim_build/
+__pycache__/
+*.py[cod]
+*.vcd
+*.xml
+*.vvp
+*.log
+.DS_Store
