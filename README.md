@@ -6,7 +6,7 @@
 [![Protocol: MCP](https://img.shields.io/badge/protocol-MCP_stdio-blueviolet)](https://modelcontextprotocol.io)
 [![Runtime: Rootless Podman](https://img.shields.io/badge/runtime-rootless_podman-brightgreen)](#execution-runtime)
 
-`mcp-cocotb` equips AI coding agents (Cursor, Claude Code, Antigravity, OpenCode) with structured tools to discover, generate, and run asynchronous Python testbenches against Verilog/SystemVerilog designs. By wrapping the complexity of simulator VPI compilation, Makefile orchestration, and JUnit XML parsing into deterministic JSON contracts, agents can execute closed-loop verification without drowning in simulator logs.
+`mcp-cocotb` equips AI coding agents and IDEs (**Cursor**, **Windsurf**, **GitHub Copilot / OpenAI Codex**, **Claude Code**, **Google Antigravity**, **OpenCode**, **Cline**) with structured tools to discover, generate, and run asynchronous Python testbenches against Verilog/SystemVerilog designs. By wrapping the complexity of simulator VPI compilation, Makefile orchestration, and JUnit XML parsing into deterministic JSON contracts, agents can execute closed-loop verification without drowning in simulator logs.
 
 ---
 
@@ -103,10 +103,19 @@ export MCP_COCOTB_RUNTIME=host
 
 ---
 
-## Client Setup
+## Universal Client & AI IDE Setup
 
-### 1. Cursor / Antigravity IDE
-Add to your project's `.cursor/mcp.json` or IDE MCP settings:
+Because `mcp-cocotb` implements the standard [Model Context Protocol (MCP)](https://modelcontextprotocol.io), it connects seamlessly to any MCP-compliant AI IDE or agent interface:
+
+| Environment | Supported Tools | Setup Location |
+| :--- | :--- | :--- |
+| **AI IDEs** | Cursor, Windsurf, Google Antigravity, Zed | `.cursor/mcp.json` or `.windsurf/mcp.json` |
+| **Extensions** | GitHub Copilot / OpenAI Codex, Cline, Roo Code | VS Code MCP extension settings |
+| **CLI Agents** | Claude Code, OpenCode, Goose, Antigravity CLI (`agy`) | Global MCP configuration or CLI flags |
+| **Desktop** | Claude Desktop | `claude_desktop_config.json` |
+
+### 1. Cursor / Windsurf / Antigravity IDE
+Add to your project's `.cursor/mcp.json` or `.windsurf/mcp.json`:
 ```json
 {
   "mcpServers": {
@@ -118,7 +127,20 @@ Add to your project's `.cursor/mcp.json` or IDE MCP settings:
 }
 ```
 
-### 2. Claude Desktop
+### 2. VS Code (GitHub Copilot / OpenAI Codex / Cline)
+Add to your VS Code MCP settings or user configuration:
+```json
+{
+  "mcpServers": {
+    "cocotb": {
+      "command": "node",
+      "args": ["/data/mxm6982/projects/personal-projects/mcp-cocotb/dist/index.js"]
+    }
+  }
+}
+```
+
+### 3. Claude Desktop & Claude Code
 Add to `claude_desktop_config.json`:
 ```json
 {
