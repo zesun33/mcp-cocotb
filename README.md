@@ -3,6 +3,7 @@
 > Model Context Protocol (MCP) server for Python-based [Cocotb](https://www.cocotb.org/) co-simulation hardware testbenches.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
+[![CI](https://github.com/zesun33/mcp-cocotb/actions/workflows/ci.yml/badge.svg)](https://github.com/zesun33/mcp-cocotb/actions/workflows/ci.yml)
 [![Protocol: MCP](https://img.shields.io/badge/protocol-MCP_stdio-blueviolet)](https://modelcontextprotocol.io)
 [![Runtime: Rootless Podman](https://img.shields.io/badge/runtime-rootless_podman-brightgreen)](#execution-runtime)
 
@@ -159,7 +160,11 @@ Add to `claude_desktop_config.json`:
 
 Run the full 6-gate verification suite:
 ```bash
+# Full verification (with Podman container execution)
 ./scripts/verify.sh
+
+# Fast / CI verification (headless environments)
+./scripts/verify.sh --quick
 ```
 
 Run specific test tiers:
