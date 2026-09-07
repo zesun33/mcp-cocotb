@@ -29,7 +29,7 @@
 // Tool Call: cocotb_toolchain_info
 {
   "runtime": "podman",
-  "image": "localhost/zesun33/verilog",
+  "image": "ghcr.io/zesun33/verilog",
   "cocotbVersion": "2.1.0",
   "pythonVersion": "Python 3.12.3",
   "simulator": "iverilog (Icarus Verilog)"
@@ -92,15 +92,24 @@ Because `mcp-cocotb` captures the exact Python failure traceback (`AssertionErro
 
 ## Execution Runtime
 
-`mcp-cocotb` automatically executes co-simulations inside the [`zesun33/verilog`](https://github.com/zesun33/eda-docker-images) rootless Podman container (`localhost/zesun33/verilog`), ensuring identical, reproducible verification environments across any Linux host:
-- Container mount: `-v <workspace>:/workspace:Z -w /workspace`
-- Shared Python C library embedding: `libpython3.12`
-- Rootless storage option: `--storage-opt overlay.ignore_chown_errors=true`
+`mcp-cocotb` runs inside the [`zesun33/verilog`](https://github.com/zesun33/eda-docker-images) rootless Podman image so tools are identical on any Linux host.
 
-To force local host execution instead of Podman:
+**Public install (recommended — anyone can pull):**
+```bash
+podman pull ghcr.io/zesun33/verilog:latest
+export MCP_COCOTB_IMAGE=ghcr.io/zesun33/verilog
+```
+
+Local builds from `eda-docker-images` still work as `localhost/zesun33/verilog` (the historical default). Override anytime with `MCP_COCOTB_IMAGE`.
+
+- Container mount: `-v <workspace>:/workspace:Z -w /workspace`
+- Podman storage option: `--storage-opt overlay.ignore_chown_errors=true`
+
+To force host binaries instead of container execution:
 ```bash
 export MCP_COCOTB_RUNTIME=host
 ```
+
 
 ---
 
@@ -122,7 +131,7 @@ Add to your project's `.cursor/mcp.json` or `.windsurf/mcp.json`:
   "mcpServers": {
     "cocotb": {
       "command": "node",
-      "args": ["/data/mxm6982/projects/personal-projects/mcp-cocotb/dist/index.js"]
+      "args": ["/path/to/personal-projects/mcp-cocotb/dist/index.js"]
     }
   }
 }
@@ -135,7 +144,7 @@ Add to your VS Code MCP settings or user configuration:
   "mcpServers": {
     "cocotb": {
       "command": "node",
-      "args": ["/data/mxm6982/projects/personal-projects/mcp-cocotb/dist/index.js"]
+      "args": ["/path/to/personal-projects/mcp-cocotb/dist/index.js"]
     }
   }
 }
