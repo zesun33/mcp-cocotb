@@ -14,6 +14,6 @@ export async function getCocotbToolchainInfo(runner: ToolRunner): Promise<Cocotb
     cocotbVersion: cocotbRes.stdout.trim() || "Unknown",
     pythonVersion: pyRes.stdout.trim() || "Unknown",
     simulator: simRes.exitCode === 0 ? "iverilog (Icarus Verilog)" : "Not found",
-    verilator: vltRes.exitCode === 0 ? `${vltVersion} (needs >= 5.036 for SIM=verilator)` : "Not found",
+    verilator: vltRes.exitCode === 0 ? vltVersion : "Not found",
   };
 }

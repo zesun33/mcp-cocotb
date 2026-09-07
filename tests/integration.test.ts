@@ -25,19 +25,19 @@ test("Integration: cocotb_list_tests discovers tests in test_dff.py", async () =
   assert.ok(res.tests.some((t) => t.name === "test_dff_toggle"));
 });
 
-test("Integration: verilator preflight fails fast with guidance on 5.020 image", async () => {
+test("Integration: verilator backend runs test_dff when Verilator >= 5.036", async () => {
   const res = await runCocotb(runner, {
     verilogSources: ["dff.v"],
     toplevel: "dff",
     pythonModule: "test_dff",
     cwd: fixturesDir,
-    timeoutMs: 40000,
+    timeoutMs: 120000,
     simulator: "verilator",
   });
 
-  assert.equal(res.success, false);
   assert.equal(res.simulator, "verilator");
-  assert.ok(res.errors.some((e) => e.includes("5.036")), `Expected version guidance, got: ${res.errors.join("; ")}`);
+  assert.ok(res.totalTests >= 3, `Expected tests, got ${res.totalTests}: ${res.errors.join("; ")}`);
+  assert.equal(res.failedTests, 1, `Expected 1 failing test, got ${res.failedTests}`);
 });
 
 test("Integration: unsupported simulator is rejected without spawning builds", async () => {
