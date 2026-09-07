@@ -16,6 +16,8 @@ export interface CocotbRunResult {
   passedTests: number;
   failedTests: number;
   durationSeconds: number;
+  simulator?: string;
+  waveFiles?: string[];
   resultsXmlPath?: string;
   tests: TestCaseResult[];
   rawStdout: string;
@@ -42,4 +44,5 @@ export interface CocotbToolchainInfo {
   cocotbVersion: string;
   pythonVersion: string;
   simulator: string;
+  verilator?: string;
 }

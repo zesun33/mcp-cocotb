@@ -5,6 +5,8 @@ export async function getCocotbToolchainInfo(runner: ToolRunner): Promise<Cocotb
   const cocotbRes = await runner.execute("cocotb-config", ["--version"]);
   const pyRes = await runner.execute("python3", ["--version"]);
   const simRes = await runner.execute("iverilog", ["-V"]);
+  const vltRes = await runner.execute("verilator", ["--version"]);
+  const vltVersion = (vltRes.stdout.trim() || vltRes.stderr.trim() || "Not found").split("\n")[0];
 
   return {
     runtime: runner.getRuntime(),
@@ -12,5 +14,6 @@ export async function getCocotbToolchainInfo(runner: ToolRunner): Promise<Cocotb
     cocotbVersion: cocotbRes.stdout.trim() || "Unknown",
     pythonVersion: pyRes.stdout.trim() || "Unknown",
     simulator: simRes.exitCode === 0 ? "iverilog (Icarus Verilog)" : "Not found",
+    verilator: vltRes.exitCode === 0 ? `${vltVersion} (needs >= 5.036 for SIM=verilator)` : "Not found",
   };
 }

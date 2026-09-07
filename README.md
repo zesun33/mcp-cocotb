@@ -83,9 +83,9 @@ Because `mcp-cocotb` captures the exact Python failure traceback (`AssertionErro
 
 | Tool | Parameters | Engine | Description |
 | :--- | :--- | :--- | :--- |
-| `cocotb_run` | `verilog_sources: string[]`, `toplevel: string`, `python_module: string`, `cwd?: string`, `timeout_ms?: number`, `simulator?: string`, `dump_waves?: boolean` | `cocotb` + `iverilog` | Compiles DUT, creates temporary simulation runner, executes Python testbench, and returns parsed JUnit XML results with tracebacks. |
+| `cocotb_run` | `verilog_sources: string[]`, `toplevel: string`, `python_module: string`, `cwd?: string`, `timeout_ms?: number`, `simulator?: "icarus" \| "verilator"`, `dump_waves?: boolean` | `cocotb` + `iverilog`/`verilator` | Compiles DUT, executes the Python testbench, and returns parsed JUnit results with tracebacks plus `simulator` echo and collected `waveFiles` (`WAVES=1` dumps). `simulator: "verilator"` needs Verilator >= 5.036 (image ships 5.020, so it fails fast with guidance) and builds with `--timing` for Clock/Timer tests. |
 | `cocotb_list_tests` | `test_file: string`, `cwd?: string` | AST Scanner | Fast static parser extracting all `@cocotb.test()` coroutines and docstrings from a test file without running simulation. |
-| `cocotb_generate_runner` | `verilog_sources: string[]`, `toplevel: string`, `python_module: string`, `simulator?: string` | Generator | Generates a clean, reproducible Cocotb simulation `Makefile` for local standalone CLI use. |
+| `cocotb_generate_runner` | `verilog_sources: string[]`, `toplevel: string`, `python_module: string`, `simulator?: string` | Generator | Generates a reproducible Cocotb `Makefile` (adds `COMPILE_ARGS += --timing` for Verilator Clock/Timer tests). |
 | `cocotb_toolchain_info` | *none* | Probe | Returns active container/host runtime and versions of Cocotb, Python 3, and simulator engines. |
 
 ---

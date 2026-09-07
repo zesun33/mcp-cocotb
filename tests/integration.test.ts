@@ -25,6 +25,51 @@ test("Integration: cocotb_list_tests discovers tests in test_dff.py", async () =
   assert.ok(res.tests.some((t) => t.name === "test_dff_toggle"));
 });
 
+test("Integration: verilator preflight fails fast with guidance on 5.020 image", async () => {
+  const res = await runCocotb(runner, {
+    verilogSources: ["dff.v"],
+    toplevel: "dff",
+    pythonModule: "test_dff",
+    cwd: fixturesDir,
+    timeoutMs: 40000,
+    simulator: "verilator",
+  });
+
+  assert.equal(res.success, false);
+  assert.equal(res.simulator, "verilator");
+  assert.ok(res.errors.some((e) => e.includes("5.036")), `Expected version guidance, got: ${res.errors.join("; ")}`);
+});
+
+test("Integration: unsupported simulator is rejected without spawning builds", async () => {
+  const res = await runCocotb(runner, {
+    verilogSources: ["dff.v"],
+    toplevel: "dff",
+    pythonModule: "test_dff",
+    cwd: fixturesDir,
+    simulator: "questa",
+  });
+
+  assert.equal(res.success, false);
+  assert.ok(res.errors.some((e) => e.includes("Unsupported simulator")));
+});
+
+test("Integration: dump_waves collects FST dumps via WAVES=1", async () => {
+  const res = await runCocotb(runner, {
+    verilogSources: ["dff.v"],
+    toplevel: "dff",
+    pythonModule: "test_dff",
+    cwd: fixturesDir,
+    timeoutMs: 60000,
+    dumpWaves: true,
+  });
+
+  assert.ok(res.totalTests >= 3);
+  assert.ok(
+    (res.waveFiles ?? []).some((f) => f.endsWith(".fst") || f.endsWith(".vcd")),
+    `Expected wave dumps, got: ${JSON.stringify(res.waveFiles)}`
+  );
+});
+
 test("Integration: cocotb_generate_runner produces valid Makefile", () => {
   const makefile = generateCocotbMakefile({
     verilogSources: ["dff.v"],
@@ -36,6 +81,14 @@ test("Integration: cocotb_generate_runner produces valid Makefile", () => {
   assert.ok(makefile.includes("TOPLEVEL = dff"));
   assert.ok(makefile.includes("MODULE = test_dff"));
   assert.ok(makefile.includes("Makefile.sim"));
+
+  const vlt = generateCocotbMakefile({
+    verilogSources: ["dff.v"],
+    toplevel: "dff",
+    pythonModule: "test_dff",
+    simulator: "verilator",
+  });
+  assert.ok(vlt.includes("COMPILE_ARGS += --timing"), "Verilator builds need --timing for Clock/Timer tests");
 });
 
 test("Integration: cocotb_run compiles and executes test_dff against dff.v", async () => {
