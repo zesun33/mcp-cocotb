@@ -22,7 +22,7 @@ export class ToolRunner {
 
   constructor() {
     const envRuntime = process.env.MCP_COCOTB_RUNTIME as RuntimeType | undefined;
-    this.imageName = process.env.MCP_COCOTB_IMAGE || "localhost/zesun33/verilog";
+    this.imageName = process.env.MCP_COCOTB_IMAGE || "ghcr.io/zesun33/verilog";
 
     if (envRuntime && ["podman", "docker", "host"].includes(envRuntime)) {
       this.runtime = envRuntime;

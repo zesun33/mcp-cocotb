@@ -1,6 +1,6 @@
 {
   "name": "@zesun33/mcp-cocotb",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Model Context Protocol (MCP) server for Python-based Cocotb hardware testbenches",
   "type": "module",
   "bin": {
