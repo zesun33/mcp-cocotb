@@ -9,6 +9,16 @@
 
 `mcp-cocotb` equips AI coding agents and IDEs (**Cursor**, **Windsurf**, **GitHub Copilot / OpenAI Codex**, **Claude Code**, **Google Antigravity**, **OpenCode**, **Cline**) with structured tools to discover, generate, and run asynchronous Python testbenches against Verilog/SystemVerilog designs. By wrapping the complexity of simulator VPI compilation, Makefile orchestration, and JUnit XML parsing into deterministic JSON contracts, agents can execute closed-loop verification without drowning in simulator logs.
 
+## Install and run
+
+Run this MCP server directly from npm:
+
+```bash
+npx -y @zesun33/mcp-cocotb
+```
+
+For the complete hardware-agent setup, use `npx -y @zesun33/create-hw-agent my-asic`.
+
 ---
 
 ## ⚡ Quick Tour: See It in Action
