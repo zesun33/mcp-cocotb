@@ -191,3 +191,7 @@ Run specific test tiers:
 npm run test:unit       # Fast unit tests (parsers & AST discovery)
 npm test                # Full test suite (including live container simulation)
 ```
+
+## npm releases
+
+See [RELEASING.md](https://github.com/zesun33/mcp-cocotb/blob/main/RELEASING.md) for GitHub Actions dry runs and trusted publishing.
