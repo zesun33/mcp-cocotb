@@ -1,5 +1,26 @@
 # @zesun33/mcp-cocotb
 
+<!-- BEGIN GENERATED PROJECT GUIDE -->
+
+## Purpose and first steps
+
+Run Python hardware testbenches and inspect their results through an MCP server.
+
+**Who it is for:** Hardware engineers using an MCP-capable client or coding agent.
+
+**First task:** Configure the server in your MCP client, then call `cocotb_toolchain_info` before running a design.
+
+**What to expect:** Simulator/tool availability, then discovered tests and parsed pass/fail results.
+
+**Current scope:** Published MCP server. The npx command starts a stdio server that waits for a client; EDA execution also needs its documented host/container tools.
+
+**Start here:** [Runtime requirements and configuration](README.md#execution-runtime).
+
+**Related projects:** [mcp-verilog](https://github.com/zesun33/mcp-verilog), [hw-verification-suite](https://github.com/zesun33/hw-verification-suite).
+
+[Choose another project](https://github.com/zesun33/personal-projects/blob/main/GETTING_STARTED.md).
+<!-- END GENERATED PROJECT GUIDE -->
+
 > Model Context Protocol (MCP) server for Python-based [Cocotb](https://www.cocotb.org/) co-simulation hardware testbenches.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
@@ -23,6 +44,8 @@ For the complete hardware-agent setup, use `npx -y @zesun33/create-hw-agent my-a
 
 ## ⚡ Quick Tour: See It in Action
 
+The examples below illustrate tool requests and result fields. Timings, counts, and scores depend on the input and runtime; they are not guaranteed outcomes or fresh verification results.
+
 ### Why AI Agents Need `mcp-cocotb`
 | Without `mcp-cocotb` (Raw Shell / Make) | With `mcp-cocotb` (Structured MCP) |
 | :--- | :--- |
@@ -32,7 +55,7 @@ For the complete hardware-agent setup, use `npx -y @zesun33/create-hw-agent my-a
 | Simulator hangs on coroutine deadlock or infinite clock loop | **Automated timeout kill-switch** (`timeout_ms`) |
 | Requires complex local Python 3.12 + C++ compiler toolchains | **Zero host configuration** (runs via isolated rootless Podman) |
 
-### Real Agent Scenarios in 60 Seconds
+### Example tool requests and results
 
 #### 1. Probing the Environment (Zero-Config Verification)
 ```json
